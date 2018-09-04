@@ -115,7 +115,7 @@ $(document).ready(function() {
             var index = parseInt(element.dataset.index);
             var type = element.dataset.type;
 
-            for(var i=-7; i<7; i++) {
+            for(var i=-4; i<=4; i++) {
                 var el = $('.status-'+type+'-'+(index+i));
                 if(!el)
                     continue;
@@ -124,7 +124,7 @@ $(document).ready(function() {
                     var classes_to_remove = [];
                     
                     $.each(current_classes, function(pos, class_name) {
-                        if(class_name.indexOf('lens-')>-1) {
+                        if(/lens-.*/.test(class_name)) {
                             classes_to_remove.push(class_name);   
                         }
                     });
