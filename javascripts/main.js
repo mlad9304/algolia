@@ -2,6 +2,7 @@ $(document).ready(function() {
     var api;
     var dashboard;
     var analytics;
+
     $.get('https://api.myjson.com/bins/1atfes', function(data) {
         
         var status = data.status;
@@ -15,17 +16,22 @@ $(document).ready(function() {
 
         for(var i=0; i<api.length; i++) {
             var element = $("<div class='flag-status has-tooltip'></div>");
-            element.addClass('status-search-api-'+i);
+            element.addClass('status-api-'+i);
+            element.attr('data-type', 'api');
+            element.attr('data-index', i);
 
             switch(api[i].status) {
                 case "operational":
                     element.addClass("operational");
+                    element.attr('data-status', "operational");
                 break;
                 case "degraded_performance":
                     element.addClass("degraded-performance");
+                    element.attr('data-status', "degraded-performance");
                 break;
                 case "major_outage":
                     element.addClass("major-outage");
+                    element.attr('data-status', "major-outage");
                 break;
             }
 
@@ -35,16 +41,21 @@ $(document).ready(function() {
         for(var i=0; i<dashboard.length; i++) {
             var element = $("<div class='flag-status has-tooltip'></div>");
             element.addClass('status-dashboard-'+i);
+            element.attr('data-type', 'dashboard');
+            element.attr('data-index', i);
 
             switch(dashboard[i].status) {
                 case "operational":
                     element.addClass("operational");
+                    element.attr('data-status', "operational");
                 break;
                 case "degraded_performance":
                     element.addClass("degraded-performance");
+                    element.attr('data-status', "degraded-performance");
                 break;
                 case "major_outage":
                     element.addClass("major-outage");
+                    element.attr('data-status', "major-outage");
                 break;
             }
 
@@ -54,21 +65,76 @@ $(document).ready(function() {
         for(var i=0; i<analytics.length; i++) {
             var element = $("<div class='flag-status has-tooltip'></div>");
             element.addClass('status-analytics-'+i);
+            element.attr('data-type', 'analytics');
+            element.attr('data-index', i);
 
             switch(analytics[i].status) {
                 case "operational":
                     element.addClass("operational");
+                    element.attr('data-status', "operational");
                 break;
                 case "degraded_performance":
                     element.addClass("degraded-performance");
+                    element.attr('data-status', "degraded-performance");
                 break;
                 case "major_outage":
                     element.addClass("major-outage");
+                    element.attr('data-status', "major-outage");
                 break;
             }
 
             analytics_container.append(element[0]);
         }
 
+
+        $('.loader').find('div:first').remove();
+        $('.loader').addClass('loaded');
+
+        $('.flag-status').mouseover(function(e) {
+            var element = e.target;
+            var index = parseInt(element.dataset.index);
+            var type = element.dataset.type;
+
+            for(i=0; i<=4; i++) {
+                if(i==0) {
+                    $('.status-'+type+'-'+index).addClass('lens-0');
+                    continue;
+                }
+                if($('.status-'+type+'-'+(index-i))) {
+                    $('.status-'+type+'-'+(index-i)).addClass('lens-'+i);
+                }
+                if($('.status-'+type+'-'+(index+i))) {
+                    $('.status-'+type+'-'+(index+i)).addClass('lens-'+i);
+                }
+            }
+
+        });
+
+        $('.flag-status').mouseout(function(e) {
+            var element = e.target;
+            var index = parseInt(element.dataset.index);
+            var type = element.dataset.type;
+
+            for(var i=-7; i<7; i++) {
+                var el = $('.status-'+type+'-'+(index+i));
+                if(!el)
+                    continue;
+                el.removeClass(function(pos, classNames) {
+                    var current_classes = classNames.split(" ");
+                    var classes_to_remove = [];
+                    
+                    $.each(current_classes, function(pos, class_name) {
+                        if(class_name.indexOf('lens-')>-1) {
+                            classes_to_remove.push(class_name);   
+                        }
+                    });
+                    
+                    return classes_to_remove.join(" ");
+                })
+            }
+        })
+
     });
+
+    
 });
