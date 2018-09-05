@@ -156,5 +156,21 @@ $(document).ready(function() {
 
     });
 
+    var helpicons = $('div.help-icon.has-tooltip');
+    new Tooltip(helpicons[0], {
+        placement: 'top',
+        title: 'Overall availability of all our public mutualized clusters powering our search API.'
+    });
+
+    new Tooltip(helpicons[1], {
+        placement: 'top',
+        title: 'Availability of our Algolia dashboard, available on https://algolia.com/dashboard.'
+    });
+
+    new Tooltip(helpicons[2], {
+        placement: 'top',
+        title: 'Availability of our Analytics infrastructure.'
+    });
+
     
 });
