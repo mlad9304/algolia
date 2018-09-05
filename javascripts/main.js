@@ -132,7 +132,15 @@ $(document).ready(function() {
                     return classes_to_remove.join(" ");
                 })
             }
-        })
+        });
+
+        $('div.flag-status.has-tooltip').each(function() {
+            console.log('aaa')
+            new Tooltip($(this), {
+                placement: 'top',
+                title: 'Tooltip'
+            })
+        });
 
     });
 
