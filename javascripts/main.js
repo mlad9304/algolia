@@ -19,6 +19,9 @@ $(document).ready(function() {
             element.addClass('status-api-'+i);
             element.attr('data-type', 'api');
             element.attr('data-index', i);
+            element.attr('data-date', api[i].date);
+            element.attr('data-datelabel', moment(api[i].date, "YYYY-MM-DD").format('dddd Do MMM'))
+            element.attr('data-uptime', api[i].uptime);
 
             switch(api[i].status) {
                 case "operational":
@@ -43,6 +46,9 @@ $(document).ready(function() {
             element.addClass('status-dashboard-'+i);
             element.attr('data-type', 'dashboard');
             element.attr('data-index', i);
+            element.attr('data-date', dashboard[i].date);
+            element.attr('data-datelabel', moment(dashboard[i].date, "YYYY-MM-DD").format('dddd Do MMM'))
+            element.attr('data-uptime', dashboard[i].uptime);
 
             switch(dashboard[i].status) {
                 case "operational":
@@ -67,6 +73,9 @@ $(document).ready(function() {
             element.addClass('status-analytics-'+i);
             element.attr('data-type', 'analytics');
             element.attr('data-index', i);
+            element.attr('data-date', analytics[i].date);
+            element.attr('data-datelabel', moment(analytics[i].date, "YYYY-MM-DD").format('dddd Do MMM'))
+            element.attr('data-uptime', analytics[i].uptime);
 
             switch(analytics[i].status) {
                 case "operational":
@@ -135,10 +144,13 @@ $(document).ready(function() {
         });
 
         $('div.flag-status.has-tooltip').each(function() {
-            console.log('aaa')
+
+            var element = $("<div class='status-tooltip text-center'><span class='date'>"+this.dataset.datelabel+".</span><br><span class='status-icon "+this.dataset.status+"'>"+this.dataset.uptime+"%</span></div>");
+            
             new Tooltip($(this), {
                 placement: 'top',
-                title: 'Tooltip'
+                html: true,
+                title: element[0]
             })
         });
 
